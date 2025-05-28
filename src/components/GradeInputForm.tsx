@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { usePredictor } from '../context/PredictorContext';
 import { SubjectGrade, GradeValue, SelfAssessment } from '../types';
 import { subjects, getCoreSubjects } from '../data/subjects';
-import { BookOpen, Plus, Trash2, Info, Scale } from 'lucide-react';
+import { BookOpen, Plus, Trash2, Info, Scale, AlertTriangle } from 'lucide-react';
 
 const GradeInputForm: React.FC = () => {
   const { updateUserGrades } = usePredictor();
@@ -10,6 +10,7 @@ const GradeInputForm: React.FC = () => {
   const [selfAssessment, setSelfAssessment] = useState<SelfAssessment>('accurate');
   const [error, setError] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   
   // Initialize with core subjects
   useEffect(() => {
@@ -25,6 +26,7 @@ const GradeInputForm: React.FC = () => {
     const newGrades = [...gradesInput];
     newGrades[index].grade = grade;
     setGradesInput(newGrades);
+    setHasUnsavedChanges(true);
   };
   
   // Handle subject change
@@ -32,6 +34,7 @@ const GradeInputForm: React.FC = () => {
     const newGrades = [...gradesInput];
     newGrades[index].subjectId = subjectId;
     setGradesInput(newGrades);
+    setHasUnsavedChanges(true);
   };
   
   // Add a new subject
@@ -47,6 +50,7 @@ const GradeInputForm: React.FC = () => {
     
     if (availableSubject) {
       setGradesInput([...gradesInput, { subjectId: availableSubject.id, grade: null }]);
+      setHasUnsavedChanges(true);
     }
   };
   
@@ -62,6 +66,7 @@ const GradeInputForm: React.FC = () => {
     const newGrades = [...gradesInput];
     newGrades.splice(index, 1);
     setGradesInput(newGrades);
+    setHasUnsavedChanges(true);
   };
   
   // Save grades
@@ -84,6 +89,7 @@ const GradeInputForm: React.FC = () => {
         grades: gradesInput,
         selfAssessment
       });
+      setHasUnsavedChanges(false);
     }
   };
   
@@ -111,6 +117,13 @@ const GradeInputForm: React.FC = () => {
         <div className="bg-red-50 text-red-700 p-3 rounded-md mb-4 flex items-center">
           <Info className="h-5 w-5 mr-2" />
           {error}
+        </div>
+      )}
+
+      {hasUnsavedChanges && (
+        <div className="bg-amber-50 text-amber-700 p-3 rounded-md mb-4 flex items-center">
+          <AlertTriangle className="h-5 w-5 mr-2" />
+          You have unsaved changes. Please click "Save & Continue" before proceeding.
         </div>
       )}
       
@@ -197,7 +210,10 @@ const GradeInputForm: React.FC = () => {
               name="confidence"
               value="overrated"
               checked={selfAssessment === 'overrated'}
-              onChange={(e) => setSelfAssessment(e.target.value as SelfAssessment)}
+              onChange={(e) => {
+                setSelfAssessment(e.target.value as SelfAssessment);
+                setHasUnsavedChanges(true);
+              }}
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
             />
             <span className="ml-2 text-sm text-gray-700">
@@ -210,7 +226,10 @@ const GradeInputForm: React.FC = () => {
               name="confidence"
               value="accurate"
               checked={selfAssessment === 'accurate'}
-              onChange={(e) => setSelfAssessment(e.target.value as SelfAssessment)}
+              onChange={(e) => {
+                setSelfAssessment(e.target.value as SelfAssessment);
+                setHasUnsavedChanges(true);
+              }}
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
             />
             <span className="ml-2 text-sm text-gray-700">
@@ -223,7 +242,10 @@ const GradeInputForm: React.FC = () => {
               name="confidence"
               value="underrated"
               checked={selfAssessment === 'underrated'}
-              onChange={(e) => setSelfAssessment(e.target.value as SelfAssessment)}
+              onChange={(e) => {
+                setSelfAssessment(e.target.value as SelfAssessment);
+                setHasUnsavedChanges(true);
+              }}
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
             />
             <span className="ml-2 text-sm text-gray-700">
