@@ -9,6 +9,7 @@ interface PredictorContextType {
   updateUserGrades: (grades: UserGrades) => void;
   updateSelectedPrograms: (programs: Program[]) => void;
   calculateResults: () => void;
+  setPriorityMode: (mode: boolean) => void;
 }
 
 const defaultContext: PredictorContextType = {
@@ -18,6 +19,7 @@ const defaultContext: PredictorContextType = {
   updateUserGrades: () => {},
   updateSelectedPrograms: () => {},
   calculateResults: () => {},
+  setPriorityMode: () => {},
 };
 
 const PredictorContext = createContext<PredictorContextType>(defaultContext);
@@ -28,6 +30,7 @@ export const PredictorProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [userGrades, setUserGrades] = useState<UserGrades>({ grades: [], selfAssessment: 'accurate' });
   const [selectedPrograms, setSelectedPrograms] = useState<Program[]>([]);
   const [predictionResults, setPredictionResults] = useState<PredictionResult[]>([]);
+  const [isFirstPriority, setIsFirstPriority] = useState(false);
 
   const updateUserGrades = (grades: UserGrades) => {
     setUserGrades(grades);
@@ -37,9 +40,13 @@ export const PredictorProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setSelectedPrograms(programs);
   };
 
+  const setPriorityMode = (mode: boolean) => {
+    setIsFirstPriority(mode);
+  };
+
   const calculateResults = () => {
     const results = selectedPrograms.map(program => 
-      calculateAdmissionLikelihood(userGrades, program)
+      calculateAdmissionLikelihood(userGrades, program, isFirstPriority)
     );
     setPredictionResults(results);
   };
@@ -53,6 +60,7 @@ export const PredictorProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         updateUserGrades,
         updateSelectedPrograms,
         calculateResults,
+        setPriorityMode,
       }}
     >
       {children}

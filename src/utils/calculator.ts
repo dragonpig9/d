@@ -27,11 +27,13 @@ const calculateConfidence = (
   userScore: number,
   program: Program,
   selfAssessment: SelfAssessment,
-  hasMissingRequirements: boolean
+  hasMissingRequirements: boolean,
+  isFirstPriority: boolean
 ): number => {
   // Calculate base confidence using sigmoid
   const sensitivity = 1.5;
-  const x = (userScore - program.medianBest5) / sensitivity;
+  const compareScore = isFirstPriority ? program.minBest5 : program.medianBest5;
+  const x = (userScore - compareScore) / sensitivity;
   let confidence = sigmoid(x) * 100;
   
   // Apply 10% penalty for missing requirements
@@ -59,10 +61,19 @@ const calculateConfidence = (
 const generateRecommendation = (
   scoreGap: number,
   confidence: number,
-  missingRequirements: string[]
+  missingRequirements: string[],
+  isFirstPriority: boolean
 ): string => {
   if (missingRequirements.length > 0) {
     return "Focus on meeting the minimum requirements for core subjects first.";
+  }
+  
+  if (isFirstPriority) {
+    if (scoreGap >= 0) {
+      return "You meet the minimum requirements for Band A consideration. Focus on maintaining your performance.";
+    } else {
+      return "Consider improving your grades to meet the minimum requirements for Band A consideration.";
+    }
   }
   
   if (scoreGap <= -3) {
@@ -193,7 +204,15 @@ export const checkElectiveRequirements = (
 };
 
 // Determine likelihood based on score gap and confidence
-export const determineLikelihood = (scoreGap: number, confidence: number): LikelihoodStatus => {
+export const determineLikelihood = (
+  scoreGap: number, 
+  confidence: number, 
+  isFirstPriority: boolean
+): LikelihoodStatus => {
+  if (isFirstPriority) {
+    return scoreGap >= 0 ? 'Likely' : 'Unlikely';
+  }
+  
   if (confidence >= 75) return 'Likely';
   if (confidence >= 40) return 'Borderline';
   return 'Unlikely';
@@ -202,7 +221,8 @@ export const determineLikelihood = (scoreGap: number, confidence: number): Likel
 // Main prediction function
 export const calculateAdmissionLikelihood = (
   userGrades: UserGrades,
-  program: Program
+  program: Program,
+  isFirstPriority: boolean = false
 ): PredictionResult => {
   // Get missing core requirements
   const missingCoreReqs = checkCoreRequirements(
@@ -228,25 +248,32 @@ export const calculateAdmissionLikelihood = (
     hasMissingRequirements
   );
   
-  // Calculate score gap (user score - median score)
-  const scoreGap = totalScore - program.medianBest5;
+  // Calculate score gap based on priority mode
+  const compareScore = isFirstPriority ? program.minBest5 : program.medianBest5;
+  const scoreGap = totalScore - compareScore;
   
   // Calculate confidence score with penalty for missing requirements
   const confidence = calculateConfidence(
     totalScore, 
     program, 
     userGrades.selfAssessment,
-    hasMissingRequirements
+    hasMissingRequirements,
+    isFirstPriority
   );
   
-  // Determine likelihood status based on confidence
-  const status = determineLikelihood(scoreGap, confidence);
+  // Determine likelihood status based on confidence and priority mode
+  const status = determineLikelihood(scoreGap, confidence, isFirstPriority);
   
   // Calculate admission probability
   const probability = Math.min(100, Math.max(0, confidence + (scoreGap * 5)));
   
   // Generate recommendation
-  const recommendation = generateRecommendation(scoreGap, confidence, missingRequirements);
+  const recommendation = generateRecommendation(
+    scoreGap, 
+    confidence, 
+    missingRequirements,
+    isFirstPriority
+  );
   
   return {
     program,

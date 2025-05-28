@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { usePredictor } from '../context/PredictorContext';
 import { Program } from '../types';
 import { programs, searchPrograms } from '../data/programs';
-import { Search, Building, Filter, Check, X, Plus } from 'lucide-react';
+import { Search, Building, Filter, Check, X, Plus, Star } from 'lucide-react';
 
 const ProgramSelection: React.FC = () => {
-  const { selectedPrograms, updateSelectedPrograms, calculateResults } = usePredictor();
+  const { selectedPrograms, updateSelectedPrograms, calculateResults, setPriorityMode } = usePredictor();
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPrograms, setFilteredPrograms] = useState<Program[]>(programs);
+  const [isFirstPriority, setIsFirstPriority] = useState(false);
   const [activeFilters, setActiveFilters] = useState<{
     universities: Set<string>;
     faculties: Set<string>;
@@ -22,14 +23,12 @@ const ProgramSelection: React.FC = () => {
       ? searchPrograms(searchQuery) 
       : [...programs];
     
-    // Apply university filter
     if (activeFilters.universities.size > 0) {
       result = result.filter(p => 
         activeFilters.universities.has(p.university)
       );
     }
     
-    // Apply faculty filter
     if (activeFilters.faculties.size > 0) {
       result = result.filter(p => 
         activeFilters.faculties.has(p.faculty)
@@ -39,7 +38,6 @@ const ProgramSelection: React.FC = () => {
     setFilteredPrograms(result);
   }, [searchQuery, activeFilters]);
   
-  // Toggle program selection
   const toggleProgram = (program: Program) => {
     const isSelected = selectedPrograms.some(p => p.id === program.id);
     
@@ -50,13 +48,9 @@ const ProgramSelection: React.FC = () => {
     }
   };
   
-  // Get unique universities
   const universities = [...new Set(programs.map(p => p.university))];
-  
-  // Get unique faculties
   const faculties = [...new Set(programs.map(p => p.faculty))];
   
-  // Toggle university filter
   const toggleUniversityFilter = (university: string) => {
     const newUniversities = new Set(activeFilters.universities);
     
@@ -72,7 +66,6 @@ const ProgramSelection: React.FC = () => {
     });
   };
   
-  // Toggle faculty filter
   const toggleFacultyFilter = (faculty: string) => {
     const newFaculties = new Set(activeFilters.faculties);
     
@@ -88,7 +81,6 @@ const ProgramSelection: React.FC = () => {
     });
   };
   
-  // Clear all filters
   const clearFilters = () => {
     setActiveFilters({
       universities: new Set(),
@@ -97,9 +89,13 @@ const ProgramSelection: React.FC = () => {
     setSearchQuery('');
   };
   
-  // Handle view results
   const handleViewResults = () => {
+    setPriorityMode(isFirstPriority);
     calculateResults();
+  };
+
+  const togglePriorityMode = () => {
+    setIsFirstPriority(!isFirstPriority);
   };
   
   return (
@@ -122,6 +118,30 @@ const ProgramSelection: React.FC = () => {
             )}
           </div>
           
+          {/* Priority Mode Toggle */}
+          <div className="mb-6 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Star className="h-4 w-4 text-amber-500 mr-2" />
+                <span className="text-sm font-medium text-amber-700">First Priority Mode</span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={isFirstPriority}
+                  onChange={togglePriorityMode}
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+            <p className="text-xs text-amber-800 mt-2">
+              {isFirstPriority 
+                ? "Using minimum Best 5 scores for comparison (Band A programs)"
+                : "Using median Best 5 scores for comparison (standard mode)"}
+            </p>
+          </div>
+
           {/* University Filter */}
           <div className="mb-4">
             <h4 className="text-sm font-medium text-gray-700 mb-2">University</h4>
