@@ -110,6 +110,10 @@ const ResultsPage: React.FC = () => {
                       <span>Program Median:</span>
                       <span className="font-medium">{result.program.medianBest5}</span>
                     </div>
+                    <div className="flex justify-between">
+                      <span>Program Minimum:</span>
+                      <span className="font-medium">{result.program.minBest5}</span>
+                    </div>
                     <div className="flex justify-between border-t pt-1">
                       <span>Score Gap:</span>
                       <span className={`font-medium ${
