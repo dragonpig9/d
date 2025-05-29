@@ -2288,7 +2288,665 @@ export const programs: Program[] = [
     maxBest5: null,
     subjectWeighting: { 'eng': 2, 'math': 2 },
     additionalRequirements: 'Best of 3 other subjects OR Best of Chemistry/Economics/Physics/M1/M2 x 1.5. Best 2 other subjects'
-    }
+    },
+// CityU JUPAS 2025 Admission Data
+// Extracted from 2025_JUPAS_Admission_Score_Formula_and_Admission_Scores.pdf
+
+interface JupasProgram {
+  id: string;
+  jupasCode: string;
+  name: string;
+  university: string;
+  faculty: string;
+  streams?: string[];
+  features?: string[];
+  majors?: string[];
+  requiredSubjects: {
+    core?: string[];
+    electives?: string[];
+    specific?: string[];
+  };
+  admissionFormula: string;
+  subjectWeighting: Record<string, number>;
+  medianScore?: number;
+  lowerQuartileScore?: number;
+  additionalRequirements?: string;
+  note?: string;
+  isNewProgram?: boolean;
+}
+
+const cityuJupasPrograms: JupasProgram[] = [
+  // College of Business
+  {
+    id: 'cityu-bsc-computational-finance-fintech',
+    jupasCode: 'JS1000',
+    name: 'BSc Computational Finance and Financial Technology',
+    university: 'CityU',
+    faculty: 'College of Business',
+    streams: ['Computational Finance Stream', 'Financial Technology Stream'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 24.5,
+    additionalRequirements: 'All subjects weighted equally'
+  },
+  {
+    id: 'cityu-bba-global-business',
+    jupasCode: 'JS1001',
+    name: 'BBA Global Business',
+    university: 'CityU',
+    faculty: 'College of Business',
+    features: ['3 Exchanges', 'Joint Bachelor\'s Degree Program with Columbia University (US)', 'Overseas Summer School & Study Tour', 'Business Consultancy Project', 'Scholarship and Sponsorship'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 29,
+    lowerQuartileScore: 25.5
+  },
+  {
+    id: 'cityu-bba-accountancy',
+    jupasCode: 'JS1002',
+    name: 'BBA Accountancy',
+    university: 'CityU',
+    faculty: 'College of Business',
+    streams: ['Professional Accounting', 'ESG and Tech'],
+    requiredSubjects: {
+      specific: ['math'],
+      electives: ['best_5_including_math']
+    },
+    admissionFormula: 'Best 5 subjects (include Mathematics)',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20.5,
+    lowerQuartileScore: 20
+  },
+  {
+    id: 'cityu-bba-management',
+    jupasCode: 'JS1005',
+    name: 'BBA Management',
+    university: 'CityU',
+    faculty: 'College of Business',
+    streams: ['Human Resources Management', 'Strategy and International Management'],
+    requiredSubjects: {
+      specific: ['math'],
+      electives: ['best_5_including_math']
+    },
+    admissionFormula: 'Best 5 subjects (include Mathematics)',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20.5,
+    lowerQuartileScore: 20.5
+  },
+  {
+    id: 'cityu-bba-marketing',
+    jupasCode: 'JS1007',
+    name: 'BBA Marketing',
+    university: 'CityU',
+    faculty: 'College of Business',
+    streams: ['Global Marketing', 'Marketing Analytics'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'eng': 1.5, 'others': 1 },
+    medianScore: 23.5,
+    lowerQuartileScore: 22
+  },
+  {
+    id: 'cityu-economics-finance',
+    jupasCode: 'JS1012',
+    name: 'Economics and Finance',
+    university: 'CityU',
+    faculty: 'College of Business',
+    majors: ['BBA Business Economics', 'BBA Finance'],
+    requiredSubjects: {
+      specific: ['math'],
+      electives: ['best_5_including_math']
+    },
+    admissionFormula: 'Best 5 subjects (include Mathematics)',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 21.5,
+    lowerQuartileScore: 21.5
+  },
+  {
+    id: 'cityu-bba-business-economics',
+    jupasCode: 'JS1013',
+    name: 'BBA Business Economics',
+    university: 'CityU',
+    faculty: 'College of Business',
+    features: ['Economic Theory', 'International Economics', 'Economic and Business Forecasting', 'Quantitative Analysis'],
+    requiredSubjects: {
+      specific: ['math'],
+      electives: ['best_5_including_math']
+    },
+    admissionFormula: 'Best 5 subjects (include Mathematics)',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20.5,
+    lowerQuartileScore: 20.5
+  },
+  {
+    id: 'cityu-bba-finance',
+    jupasCode: 'JS1014',
+    name: 'BBA Finance',
+    university: 'CityU',
+    faculty: 'College of Business',
+    features: ['Investment Analysis', 'Financial Markets', 'Corporate Finance', 'Risk Management', 'Trading Room Workshop'],
+    requiredSubjects: {
+      specific: ['math'],
+      electives: ['best_5_including_math']
+    },
+    admissionFormula: 'Best 5 subjects (include Mathematics)',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20.5,
+    lowerQuartileScore: 20.5
+  },
+  {
+    id: 'cityu-information-systems',
+    jupasCode: 'JS1017',
+    name: 'Information Systems',
+    university: 'CityU',
+    faculty: 'College of Business',
+    majors: ['BBA Global Business Systems Management', 'BBA Information Management'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20.5,
+    lowerQuartileScore: 19.5
+  },
+  {
+    id: 'cityu-bba-global-business-systems',
+    jupasCode: 'JS1018',
+    name: 'BBA Global Business Systems Management',
+    university: 'CityU',
+    faculty: 'College of Business',
+    features: ['Intelligent Technologies', 'Global Business', 'Study Exchange'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 22,
+    lowerQuartileScore: 22
+  },
+  {
+    id: 'cityu-bba-information-management',
+    jupasCode: 'JS1019',
+    name: 'BBA Information Management',
+    university: 'CityU',
+    faculty: 'College of Business',
+    streams: ['Business Intelligence', 'Information Systems Auditing', 'Internet Services and Social Networks', 'Data Informatics'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20.5,
+    lowerQuartileScore: 19.5
+  },
+  {
+    id: 'cityu-management-sciences',
+    jupasCode: 'JS1025',
+    name: 'Management Sciences',
+    university: 'CityU',
+    faculty: 'College of Business',
+    majors: ['BBA Business Decision Analytics', 'BBA Global Operations Management'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20,
+    lowerQuartileScore: 19.5
+  },
+  {
+    id: 'cityu-bba-business-decision-analytics',
+    jupasCode: 'JS1026',
+    name: 'BBA Business Decision Analytics',
+    university: 'CityU',
+    faculty: 'College of Business',
+    streams: ['Decision Analytics', 'Data Informatics'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 19.5,
+    lowerQuartileScore: 19
+  },
+  {
+    id: 'cityu-bba-global-operations-management',
+    jupasCode: 'JS1027',
+    name: 'BBA Global Operations Management',
+    university: 'CityU',
+    faculty: 'College of Business',
+    features: ['Supply Chain Management', 'Operations Efficiency', 'Process Improvement', 'Operations Analytics', 'Resource Planning'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 19.5,
+    lowerQuartileScore: 19
+  },
+
+  // College of Computing
+  {
+    id: 'cityu-delta-program',
+    jupasCode: 'JS1070',
+    name: 'Data Empowerment: Learn, Transform and Achieve (DELTA)',
+    university: 'CityU',
+    faculty: 'College of Computing',
+    features: ['Free Choice of Major', 'One-to-One Advisor', 'Elite Work Placement', 'Executive Mentor Scheme', 'Premium Overseas Exchange', 'Internship Exchange'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
+    isNewProgram: true,
+    note: 'New Programme in 2025 JUPAS'
+  },
+  {
+    id: 'cityu-data-science',
+    jupasCode: 'JS1071',
+    name: 'Data Science',
+    university: 'CityU',
+    faculty: 'College of Computing',
+    majors: ['BSc Data Science', 'BSc Data and Systems Engineering'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
+    medianScore: 28,
+    lowerQuartileScore: 27
+  },
+  {
+    id: 'cityu-bsc-data-science',
+    jupasCode: 'JS1072',
+    name: 'BSc Data Science',
+    university: 'CityU',
+    faculty: 'College of Computing',
+    features: ['Data Science', 'Machine Learning', 'Data Mining', 'Big Data Analysis'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
+    medianScore: 29,
+    lowerQuartileScore: 28
+  },
+  {
+    id: 'cityu-bsc-data-systems-engineering',
+    jupasCode: 'JS1074',
+    name: 'BSc Data and Systems Engineering',
+    university: 'CityU',
+    faculty: 'College of Computing',
+    features: ['Data Science', 'FinTech', 'Industrial AI', 'Smart City', 'Internet of Things'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
+    medianScore: 27,
+    lowerQuartileScore: 27
+  },
+  {
+    id: 'cityu-bsc-computer-science',
+    jupasCode: 'JS1204',
+    name: 'BSc Computer Science',
+    university: 'CityU',
+    faculty: 'College of Computing',
+    streams: ['Artificial Intelligence', 'Cybersecurity', 'Data Science', 'Multimedia Computing', 'Software Engineering and Project Management'],
+    requiredSubjects: {
+      electives: ['best_5_subjects']
+    },
+    admissionFormula: 'Best 5 subjects',
+    subjectWeighting: { 'all': 1 },
+    medianScore: 20.5,
+    lowerQuartileScore: 19.5
+  },
+  {
+    id: 'cityu-bsc-cybersecurity',
+    jupasCode: 'JS1218',
+    name: 'BSc Cybersecurity',
+    university: 'CityU',
+    faculty: 'College of Computing',
+    features: ['System Security', 'Software Security', 'Cryptography', 'Privacy-Enhancing Technologies', 'Cyber Risk Management'],
+    requiredSubjects: {
+      electives: ['best_5_subjects']
+    },
+    admissionFormula: 'Best 5 subjects',
+    subjectWeighting: { 'all': 1 },
+    isNewProgram: true,
+    note: 'New Programme in 2025 JUPAS'
+  },
+
+  // College of Engineering
+  {
+    id: 'cityu-architecture-civil-engineering',
+    jupasCode: 'JS1201',
+    name: 'Architecture and Civil Engineering',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    majors: ['BEng Architectural Engineering', 'BEng Civil Engineering', 'BSc Architecture and Surveying'],
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_5_including_english']
+    },
+    admissionFormula: 'Best 5 subjects (include English)',
+    subjectWeighting: {
+      'eng': 2.5, 'math': 2.5, 'm1': 2.5, 'm2': 2.5, 'phy': 2.5,
+      'chi': 1.5, 'others': 1
+    },
+    medianScore: 42,
+    lowerQuartileScore: 40
+  },
+  {
+    id: 'cityu-electrical-engineering',
+    jupasCode: 'JS1205',
+    name: 'Electrical Engineering',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    majors: ['BEng Computer and Data Engineering', 'BEng Electronic and Electrical Engineering', 'BEng Information Engineering', 'BEng Microelectronics Engineering'],
+    requiredSubjects: {
+      specific: ['eng', 'math'],
+      electives: ['best_5_including_english_math']
+    },
+    admissionFormula: 'Best 5 subjects (include English and Mathematics)',
+    subjectWeighting: {
+      'eng': 2, 'math': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
+      'bio': 1.5, 'chem': 1.5, 'others': 1
+    },
+    medianScore: 34.5,
+    lowerQuartileScore: 34
+  },
+  {
+    id: 'cityu-mechanical-engineering',
+    jupasCode: 'JS1207',
+    name: 'Mechanical Engineering',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    majors: ['BEng Aerospace Engineering', 'BEng Mechanical Engineering', 'BEng Nuclear and Risk Engineering'],
+    requiredSubjects: {
+      specific: ['math'],
+      electives: ['best_5_including_math']
+    },
+    admissionFormula: 'Best 5 subjects (include Mathematics)',
+    subjectWeighting: {
+      'eng': 2, 'math': 2, 'phy': 2,
+      'chem': 1.5, 'dat': 1.5, 'm1': 1.5, 'm2': 1.5, 'others': 1
+    },
+    medianScore: 31,
+    lowerQuartileScore: 30.5
+  },
+  {
+    id: 'cityu-beng-materials-science',
+    jupasCode: 'JS1210',
+    name: 'BEng Materials Science and Engineering',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    features: ['HKIE Accredited', 'Industrial and Research Internships', 'Overseas Double-degrees', 'Knowledge Transfer', 'World-leading Research'],
+    requiredSubjects: {
+      specific: ['math'],
+      electives: ['best_5_including_math']
+    },
+    admissionFormula: 'Best 5 subjects (include Mathematics)',
+    subjectWeighting: {
+      'math': 2, 'phy': 2,
+      'eng': 1.5, 'bio': 1.5, 'chem': 1.5, 'm1': 1.5, 'm2': 1.5, 'others': 1
+    },
+    medianScore: 29.5,
+    lowerQuartileScore: 29
+  },
+  {
+    id: 'cityu-beng-biomedical',
+    jupasCode: 'JS1211',
+    name: 'BEng Biomedical Engineering',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    features: ['Medical Technology', 'Bioinstrumentation', 'Cell and Tissue Engineering', 'Healthcare Robotics'],
+    requiredSubjects: {
+      electives: ['best_5_subjects']
+    },
+    admissionFormula: 'Best 5 subjects (If both Mathematics and M1/M2 are taken, only one subject will be included)',
+    subjectWeighting: {
+      'eng': 2, 'math': 2, 'bio': 2, 'chem': 2, 'm1': 2, 'm2': 2, 'phy': 2,
+      'others': 1
+    },
+    medianScore: 36,
+    lowerQuartileScore: 35
+  },
+  {
+    id: 'cityu-beng-intelligent-manufacturing',
+    jupasCode: 'JS1216',
+    name: 'BEng Intelligent Manufacturing Engineering',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    features: ['Industrial Internet-of-Things', 'Industrial Big Data', 'Robotics and Automation', 'Logistics and Supply Chain', 'Smart City Engineering'],
+    requiredSubjects: {
+      specific: ['eng', 'math'],
+      electives: ['best_5_including_english_math']
+    },
+    admissionFormula: 'Best 5 subjects (include English and Mathematics)',
+    subjectWeighting: {
+      'eng': 2, 'math': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
+      'chem': 1.5, 'dat': 1.5, 'others': 1
+    },
+    medianScore: 35,
+    lowerQuartileScore: 33.5
+  },
+  {
+    id: 'cityu-prime-program',
+    jupasCode: 'JS1217',
+    name: 'Pathway for Research, Innovation, and Multinational Engineering (PRIME)',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    features: ['any major in College of Engineering + Overseas Experience', 'Interdisciplinary', 'Entrepreneurial Training'],
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_5_including_english']
+    },
+    admissionFormula: 'Best 5 subjects (include English)',
+    subjectWeighting: {
+      'eng': 2, 'math': 2, 'bio': 2, 'chem': 2, 'dat': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
+      'others': 1
+    },
+    medianScore: 36,
+    lowerQuartileScore: 36
+  },
+  {
+    id: 'cityu-beng-innovation-enterprise',
+    jupasCode: 'JS1219',
+    name: 'BEng Innovation and Enterprise Engineering',
+    university: 'CityU',
+    faculty: 'College of Engineering',
+    features: ['Engineering', 'Technology', 'Innovation', 'Enterprise', 'Entrepreneurship'],
+    requiredSubjects: {
+      specific: ['eng', 'math'],
+      electives: ['best_5_including_english_math']
+    },
+    admissionFormula: 'Best 5 subjects (include English and Mathematics)',
+    subjectWeighting: {
+      'eng': 2, 'math': 2, 'bio': 2, 'chem': 2, 'dat': 2, 'econ': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
+      'others': 1
+    },
+    isNewProgram: true,
+    note: 'New Programme in 2025 JUPAS'
+  },
+
+  // College of Liberal Arts and Social Sciences
+  {
+    id: 'cityu-bsocsc-psychology-wecare',
+    jupasCode: 'JS1100',
+    name: 'BSocSc Psychology [Stream: Wellbeing Enhancement and Care Management (WE-CARE) Programme]',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_4_including_english']
+    },
+    admissionFormula: 'Best 4 subjects (include English)',
+    subjectWeighting: { 'eng': 2, 'others': 1 },
+    isNewProgram: true,
+    note: 'New Programme in 2025 JUPAS'
+  },
+  {
+    id: 'cityu-bsocsc-international-relations',
+    jupasCode: 'JS1102',
+    name: 'BSocSc International Relations and Global Affairs',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    streams: ['Asian Studies', 'International Studies', 'Development Studies'],
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_5_including_english']
+    },
+    admissionFormula: 'Best 5 subjects (include English)',
+    subjectWeighting: { 'eng': 1.5, 'others': 1 },
+    medianScore: 24,
+    lowerQuartileScore: 23.5
+  },
+  {
+    id: 'cityu-ba-chinese-history',
+    jupasCode: 'JS1103',
+    name: 'BA Chinese and History',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    streams: ['Chinese', 'History and Cultural Heritage'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: {
+      'eng': 2, 'chi': 2,
+      'chi_hist': 1.5, 'chi_lit': 1.5, 'hist': 1.5, 'va': 1.5,
+      'others': 1
+    },
+    medianScore: 34,
+    lowerQuartileScore: 33
+  },
+  {
+    id: 'cityu-ba-english',
+    jupasCode: 'JS1104',
+    name: 'BA English',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    streams: ['English and Professional Communication', 'Language and Literature'],
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_5_including_english']
+    },
+    admissionFormula: 'Best 5 subjects (include English)',
+    subjectWeighting: {
+      'eng': 2.5,
+      'lit_eng': 1.5,
+      'others': 1
+    },
+    medianScore: 32.5,
+    lowerQuartileScore: 30.5
+  },
+  {
+    id: 'cityu-media-communication',
+    jupasCode: 'JS1106',
+    name: 'Media and Communication',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    majors: ['BA Digital Television and Broadcasting', 'BA Media and Communication'],
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_4_including_english']
+    },
+    admissionFormula: 'Best 4 subjects (include English)',
+    subjectWeighting: { 'eng': 1.25, 'chi': 1.25, 'others': 1 },
+    medianScore: 19.5,
+    lowerQuartileScore: 19
+  },
+  {
+    id: 'cityu-bsocsc-public-affairs',
+    jupasCode: 'JS1108',
+    name: 'BSocSc Public Affairs and Management',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    streams: ['Political Affairs and Governance', 'Public Policy and Management'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: { 'eng': 1.5, 'others': 1 },
+    medianScore: 22,
+    lowerQuartileScore: 21
+  },
+  {
+    id: 'cityu-ba-linguistics',
+    jupasCode: 'JS1109',
+    name: 'BA Linguistics and Language Applications',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    features: ['Linguistics', 'Language Applications', 'Language Technology'],
+    requiredSubjects: {
+      core: ['chi', 'eng', 'math'],
+      electives: ['any_elective_1', 'any_elective_2']
+    },
+    admissionFormula: '3 core + 2 elective subjects',
+    subjectWeighting: {
+      'eng': 2,
+      'chi': 1.5, 'math': 1.5,
+      'others': 1
+    },
+    medianScore: 30.5,
+    lowerQuartileScore: 29.5
+  },
+  {
+    id: 'cityu-bsocsc-crime-science',
+    jupasCode: 'JS1111',
+    name: 'BSocSc Crime Science',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    features: ['Crime Prevention', 'Security Practice', 'Global Policing', 'Crime Analytics', 'Cyber and Future Crimes'],
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_4_including_english']
+    },
+    admissionFormula: 'Best 4 subjects (include English)',
+    subjectWeighting: { 'eng': 2, 'others': 1 },
+    medianScore: 21.5,
+    lowerQuartileScore: 21.5
+  },
+  {
+    id: 'cityu-bsocsc-psychology',
+    jupasCode: 'JS1112',
+    name: 'BSocSc Psychology',
+    university: 'CityU',
+    faculty: 'College of Liberal Arts and Social Sciences',
+    streams: ['Health and Development', 'Mind and Brain'],
+    requiredSubjects: {
+      specific: ['eng'],
+      electives: ['best_4_including_english']
+    },
+    admissionFormula: 'Best 4 subjects (include English)',
+    subjectWeighting: { 'eng': 2, 'others': 1 },
+    medianScore: 23.5,
+    lowerQuartileScore: 23
+  }
 ];
 
 export const getProgramById = (id: string): Program | undefined => {
