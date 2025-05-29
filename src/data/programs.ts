@@ -2280,7 +2280,6 @@ export const programs: Program[] = [
     faculty: 'School of Business and Management',
     requiredSubjects: {
       core: ['chi', 'eng', 'math', 'ls'],
-      electives: []
     },
     minRequirements: { chinese: 3, english: 3, math: 3, ls: 3 },
     medianBest5: 60.94,
@@ -2289,48 +2288,16 @@ export const programs: Program[] = [
     subjectWeighting: { 'eng': 2, 'math': 2 },
     additionalRequirements: 'Best of 3 other subjects OR Best of Chemistry/Economics/Physics/M1/M2 x 1.5. Best 2 other subjects'
     },
-// CityU JUPAS 2025 Admission Data
-// Extracted from 2025_JUPAS_Admission_Score_Formula_and_Admission_Scores.pdf
-
-interface JupasProgram {
-  id: string;
-  jupasCode: string;
-  name: string;
-  university: string;
-  faculty: string;
-  streams?: string[];
-  features?: string[];
-  majors?: string[];
-  requiredSubjects: {
-    core?: string[];
-    electives?: string[];
-    specific?: string[];
-  };
-  admissionFormula: string;
-  subjectWeighting: Record<string, number>;
-  medianScore?: number;
-  lowerQuartileScore?: number;
-  additionalRequirements?: string;
-  note?: string;
-  isNewProgram?: boolean;
-}
-
-const cityuJupasPrograms: JupasProgram[] = [
-  // College of Business
   {
     id: 'cityu-bsc-computational-finance-fintech',
     jupasCode: 'JS1000',
     name: 'BSc Computational Finance and Financial Technology',
     university: 'CityU',
     faculty: 'College of Business',
-    streams: ['Computational Finance Stream', 'Financial Technology Stream'],
     requiredSubjects: {
       core: ['chi', 'eng', 'math'],
-      electives: ['any_elective_1', 'any_elective_2']
     },
-    admissionFormula: '3 core + 2 elective subjects',
-    subjectWeighting: { 'all': 1 },
-    medianScore: 24.5,
+    medianBest5: 24.5,
     additionalRequirements: 'All subjects weighted equally'
   },
   {
@@ -2339,15 +2306,11 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BBA Global Business',
     university: 'CityU',
     faculty: 'College of Business',
-    features: ['3 Exchanges', 'Joint Bachelor\'s Degree Program with Columbia University (US)', 'Overseas Summer School & Study Tour', 'Business Consultancy Project', 'Scholarship and Sponsorship'],
     requiredSubjects: {
       core: ['chi', 'eng', 'math'],
-      electives: ['any_elective_1', 'any_elective_2']
     },
-    admissionFormula: '3 core + 2 elective subjects',
-    subjectWeighting: { 'all': 1 },
-    medianScore: 29,
-    lowerQuartileScore: 25.5
+    medianBest5: 29,
+    minBest5: 25.5
   },
   {
     id: 'cityu-bba-accountancy',
@@ -2355,15 +2318,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BBA Accountancy',
     university: 'CityU',
     faculty: 'College of Business',
-    streams: ['Professional Accounting', 'ESG and Tech'],
     requiredSubjects: {
       specific: ['math'],
       electives: ['best_5_including_math']
     },
     admissionFormula: 'Best 5 subjects (include Mathematics)',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20.5,
-    lowerQuartileScore: 20
+    medianBest5: 20.5,
+    minBest5: 20
   },
   {
     id: 'cityu-bba-management',
@@ -2378,8 +2340,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: 'Best 5 subjects (include Mathematics)',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20.5,
-    lowerQuartileScore: 20.5
+    medianBest5: 20.5,
+    minBest5: 20.5
   },
   {
     id: 'cityu-bba-marketing',
@@ -2387,15 +2349,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BBA Marketing',
     university: 'CityU',
     faculty: 'College of Business',
-    streams: ['Global Marketing', 'Marketing Analytics'],
     requiredSubjects: {
       core: ['chi', 'eng', 'math'],
       electives: ['any_elective_1', 'any_elective_2']
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'eng': 1.5, 'others': 1 },
-    medianScore: 23.5,
-    lowerQuartileScore: 22
+    medianBest5: 23.5,
+    minBest5: 22
   },
   {
     id: 'cityu-economics-finance',
@@ -2403,15 +2364,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'Economics and Finance',
     university: 'CityU',
     faculty: 'College of Business',
-    majors: ['BBA Business Economics', 'BBA Finance'],
     requiredSubjects: {
       specific: ['math'],
       electives: ['best_5_including_math']
     },
     admissionFormula: 'Best 5 subjects (include Mathematics)',
     subjectWeighting: { 'all': 1 },
-    medianScore: 21.5,
-    lowerQuartileScore: 21.5
+    medianBest5: 21.5,
+    minBest5: 21.5
   },
   {
     id: 'cityu-bba-business-economics',
@@ -2419,15 +2379,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BBA Business Economics',
     university: 'CityU',
     faculty: 'College of Business',
-    features: ['Economic Theory', 'International Economics', 'Economic and Business Forecasting', 'Quantitative Analysis'],
     requiredSubjects: {
       specific: ['math'],
       electives: ['best_5_including_math']
     },
     admissionFormula: 'Best 5 subjects (include Mathematics)',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20.5,
-    lowerQuartileScore: 20.5
+    medianBest5: 20.5,
+    minBest5: 20.5
   },
   {
     id: 'cityu-bba-finance',
@@ -2442,8 +2401,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: 'Best 5 subjects (include Mathematics)',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20.5,
-    lowerQuartileScore: 20.5
+    medianBest5: 20.5,
+    minBest5: 20.5
   },
   {
     id: 'cityu-information-systems',
@@ -2451,15 +2410,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'Information Systems',
     university: 'CityU',
     faculty: 'College of Business',
-    majors: ['BBA Global Business Systems Management', 'BBA Information Management'],
     requiredSubjects: {
       core: ['chi', 'eng', 'math'],
       electives: ['any_elective_1', 'any_elective_2']
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20.5,
-    lowerQuartileScore: 19.5
+    medianBest5: 20.5,
+    minBest5: 19.5
   },
   {
     id: 'cityu-bba-global-business-systems',
@@ -2474,8 +2432,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'all': 1 },
-    medianScore: 22,
-    lowerQuartileScore: 22
+    medianBest5: 22,
+    minBest5: 22
   },
   {
     id: 'cityu-bba-information-management',
@@ -2490,8 +2448,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20.5,
-    lowerQuartileScore: 19.5
+    medianBest5: 20.5,
+    minBest5: 19.5
   },
   {
     id: 'cityu-management-sciences',
@@ -2506,8 +2464,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20,
-    lowerQuartileScore: 19.5
+    medianBest5: 20,
+    minBest5: 19.5
   },
   {
     id: 'cityu-bba-business-decision-analytics',
@@ -2522,8 +2480,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'all': 1 },
-    medianScore: 19.5,
-    lowerQuartileScore: 19
+    medianBest5: 19.5,
+    minBest5: 19
   },
   {
     id: 'cityu-bba-global-operations-management',
@@ -2538,8 +2496,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'all': 1 },
-    medianScore: 19.5,
-    lowerQuartileScore: 19
+    medianBest5: 19.5,
+    minBest5: 19
   },
 
   // College of Computing
@@ -2556,7 +2514,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
-    isNewProgram: true,
     note: 'New Programme in 2025 JUPAS'
   },
   {
@@ -2572,8 +2529,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
-    medianScore: 28,
-    lowerQuartileScore: 27
+    medianBest5: 28,
+    minBest5: 27
   },
   {
     id: 'cityu-bsc-data-science',
@@ -2588,8 +2545,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
-    medianScore: 29,
-    lowerQuartileScore: 28
+    medianBest5: 29,
+    minBest5: 28
   },
   {
     id: 'cityu-bsc-data-systems-engineering',
@@ -2604,8 +2561,8 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'eng': 2, 'math': 2, 'others': 1 },
-    medianScore: 27,
-    lowerQuartileScore: 27
+    medianBest5: 27,
+    minBest5: 27
   },
   {
     id: 'cityu-bsc-computer-science',
@@ -2613,14 +2570,13 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BSc Computer Science',
     university: 'CityU',
     faculty: 'College of Computing',
-    streams: ['Artificial Intelligence', 'Cybersecurity', 'Data Science', 'Multimedia Computing', 'Software Engineering and Project Management'],
     requiredSubjects: {
       electives: ['best_5_subjects']
     },
     admissionFormula: 'Best 5 subjects',
     subjectWeighting: { 'all': 1 },
-    medianScore: 20.5,
-    lowerQuartileScore: 19.5
+    medianBest5: 20.5,
+    minBest5: 19.5
   },
   {
     id: 'cityu-bsc-cybersecurity',
@@ -2628,13 +2584,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BSc Cybersecurity',
     university: 'CityU',
     faculty: 'College of Computing',
-    features: ['System Security', 'Software Security', 'Cryptography', 'Privacy-Enhancing Technologies', 'Cyber Risk Management'],
-    requiredSubjects: {
-      electives: ['best_5_subjects']
-    },
-    admissionFormula: 'Best 5 subjects',
-    subjectWeighting: { 'all': 1 },
-    isNewProgram: true,
     note: 'New Programme in 2025 JUPAS'
   },
 
@@ -2655,8 +2604,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'eng': 2.5, 'math': 2.5, 'm1': 2.5, 'm2': 2.5, 'phy': 2.5,
       'chi': 1.5, 'others': 1
     },
-    medianScore: 42,
-    lowerQuartileScore: 40
+    medianBest5: 42,
+    minBest5: 40
   },
   {
     id: 'cityu-electrical-engineering',
@@ -2664,7 +2613,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'Electrical Engineering',
     university: 'CityU',
     faculty: 'College of Engineering',
-    majors: ['BEng Computer and Data Engineering', 'BEng Electronic and Electrical Engineering', 'BEng Information Engineering', 'BEng Microelectronics Engineering'],
     requiredSubjects: {
       specific: ['eng', 'math'],
       electives: ['best_5_including_english_math']
@@ -2674,8 +2622,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'eng': 2, 'math': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
       'bio': 1.5, 'chem': 1.5, 'others': 1
     },
-    medianScore: 34.5,
-    lowerQuartileScore: 34
+    medianBest5: 34.5,
+    minBest5: 34
   },
   {
     id: 'cityu-mechanical-engineering',
@@ -2683,7 +2631,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'Mechanical Engineering',
     university: 'CityU',
     faculty: 'College of Engineering',
-    majors: ['BEng Aerospace Engineering', 'BEng Mechanical Engineering', 'BEng Nuclear and Risk Engineering'],
     requiredSubjects: {
       specific: ['math'],
       electives: ['best_5_including_math']
@@ -2693,8 +2640,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'eng': 2, 'math': 2, 'phy': 2,
       'chem': 1.5, 'dat': 1.5, 'm1': 1.5, 'm2': 1.5, 'others': 1
     },
-    medianScore: 31,
-    lowerQuartileScore: 30.5
+    medianBest5: 31,
+    minBest5: 30.5
   },
   {
     id: 'cityu-beng-materials-science',
@@ -2702,7 +2649,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BEng Materials Science and Engineering',
     university: 'CityU',
     faculty: 'College of Engineering',
-    features: ['HKIE Accredited', 'Industrial and Research Internships', 'Overseas Double-degrees', 'Knowledge Transfer', 'World-leading Research'],
     requiredSubjects: {
       specific: ['math'],
       electives: ['best_5_including_math']
@@ -2712,8 +2658,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'math': 2, 'phy': 2,
       'eng': 1.5, 'bio': 1.5, 'chem': 1.5, 'm1': 1.5, 'm2': 1.5, 'others': 1
     },
-    medianScore: 29.5,
-    lowerQuartileScore: 29
+    medianBest5: 29.5,
+    minBest5: 29
   },
   {
     id: 'cityu-beng-biomedical',
@@ -2721,7 +2667,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BEng Biomedical Engineering',
     university: 'CityU',
     faculty: 'College of Engineering',
-    features: ['Medical Technology', 'Bioinstrumentation', 'Cell and Tissue Engineering', 'Healthcare Robotics'],
     requiredSubjects: {
       electives: ['best_5_subjects']
     },
@@ -2730,8 +2675,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'eng': 2, 'math': 2, 'bio': 2, 'chem': 2, 'm1': 2, 'm2': 2, 'phy': 2,
       'others': 1
     },
-    medianScore: 36,
-    lowerQuartileScore: 35
+    medianBest5: 36,
+    minBest5: 35
   },
   {
     id: 'cityu-beng-intelligent-manufacturing',
@@ -2739,7 +2684,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BEng Intelligent Manufacturing Engineering',
     university: 'CityU',
     faculty: 'College of Engineering',
-    features: ['Industrial Internet-of-Things', 'Industrial Big Data', 'Robotics and Automation', 'Logistics and Supply Chain', 'Smart City Engineering'],
     requiredSubjects: {
       specific: ['eng', 'math'],
       electives: ['best_5_including_english_math']
@@ -2749,8 +2693,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'eng': 2, 'math': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
       'chem': 1.5, 'dat': 1.5, 'others': 1
     },
-    medianScore: 35,
-    lowerQuartileScore: 33.5
+    medianBest5: 35,
+    minBest5: 33.5
   },
   {
     id: 'cityu-prime-program',
@@ -2758,7 +2702,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'Pathway for Research, Innovation, and Multinational Engineering (PRIME)',
     university: 'CityU',
     faculty: 'College of Engineering',
-    features: ['any major in College of Engineering + Overseas Experience', 'Interdisciplinary', 'Entrepreneurial Training'],
     requiredSubjects: {
       specific: ['eng'],
       electives: ['best_5_including_english']
@@ -2768,8 +2711,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'eng': 2, 'math': 2, 'bio': 2, 'chem': 2, 'dat': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
       'others': 1
     },
-    medianScore: 36,
-    lowerQuartileScore: 36
+    medianBest5: 36,
+    minnBest5: 36
   },
   {
     id: 'cityu-beng-innovation-enterprise',
@@ -2777,7 +2720,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BEng Innovation and Enterprise Engineering',
     university: 'CityU',
     faculty: 'College of Engineering',
-    features: ['Engineering', 'Technology', 'Innovation', 'Enterprise', 'Entrepreneurship'],
     requiredSubjects: {
       specific: ['eng', 'math'],
       electives: ['best_5_including_english_math']
@@ -2787,7 +2729,6 @@ const cityuJupasPrograms: JupasProgram[] = [
       'eng': 2, 'math': 2, 'bio': 2, 'chem': 2, 'dat': 2, 'econ': 2, 'ict': 2, 'm1': 2, 'm2': 2, 'phy': 2,
       'others': 1
     },
-    isNewProgram: true,
     note: 'New Programme in 2025 JUPAS'
   },
 
@@ -2804,7 +2745,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     },
     admissionFormula: 'Best 4 subjects (include English)',
     subjectWeighting: { 'eng': 2, 'others': 1 },
-    isNewProgram: true,
     note: 'New Programme in 2025 JUPAS'
   },
   {
@@ -2813,15 +2753,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BSocSc International Relations and Global Affairs',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    streams: ['Asian Studies', 'International Studies', 'Development Studies'],
     requiredSubjects: {
       specific: ['eng'],
       electives: ['best_5_including_english']
     },
     admissionFormula: 'Best 5 subjects (include English)',
     subjectWeighting: { 'eng': 1.5, 'others': 1 },
-    medianScore: 24,
-    lowerQuartileScore: 23.5
+    medianBest5: 24,
+    minBest5: 23.5
   },
   {
     id: 'cityu-ba-chinese-history',
@@ -2829,7 +2768,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BA Chinese and History',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    streams: ['Chinese', 'History and Cultural Heritage'],
     requiredSubjects: {
       core: ['chi', 'eng', 'math'],
       electives: ['any_elective_1', 'any_elective_2']
@@ -2840,8 +2778,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'chi_hist': 1.5, 'chi_lit': 1.5, 'hist': 1.5, 'va': 1.5,
       'others': 1
     },
-    medianScore: 34,
-    lowerQuartileScore: 33
+    medianBest5: 34,
+    minBest5: 33
   },
   {
     id: 'cityu-ba-english',
@@ -2849,7 +2787,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BA English',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    streams: ['English and Professional Communication', 'Language and Literature'],
     requiredSubjects: {
       specific: ['eng'],
       electives: ['best_5_including_english']
@@ -2860,8 +2797,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'lit_eng': 1.5,
       'others': 1
     },
-    medianScore: 32.5,
-    lowerQuartileScore: 30.5
+    medianBest5: 32.5,
+    minBest5: 30.5
   },
   {
     id: 'cityu-media-communication',
@@ -2869,15 +2806,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'Media and Communication',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    majors: ['BA Digital Television and Broadcasting', 'BA Media and Communication'],
     requiredSubjects: {
       specific: ['eng'],
       electives: ['best_4_including_english']
     },
     admissionFormula: 'Best 4 subjects (include English)',
     subjectWeighting: { 'eng': 1.25, 'chi': 1.25, 'others': 1 },
-    medianScore: 19.5,
-    lowerQuartileScore: 19
+    medianBest5: 19.5,
+    minBest5: 19
   },
   {
     id: 'cityu-bsocsc-public-affairs',
@@ -2885,15 +2821,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BSocSc Public Affairs and Management',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    streams: ['Political Affairs and Governance', 'Public Policy and Management'],
     requiredSubjects: {
       core: ['chi', 'eng', 'math'],
       electives: ['any_elective_1', 'any_elective_2']
     },
     admissionFormula: '3 core + 2 elective subjects',
     subjectWeighting: { 'eng': 1.5, 'others': 1 },
-    medianScore: 22,
-    lowerQuartileScore: 21
+    medianBest5: 22,
+    minBest5: 21
   },
   {
     id: 'cityu-ba-linguistics',
@@ -2901,7 +2836,6 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BA Linguistics and Language Applications',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    features: ['Linguistics', 'Language Applications', 'Language Technology'],
     requiredSubjects: {
       core: ['chi', 'eng', 'math'],
       electives: ['any_elective_1', 'any_elective_2']
@@ -2912,8 +2846,8 @@ const cityuJupasPrograms: JupasProgram[] = [
       'chi': 1.5, 'math': 1.5,
       'others': 1
     },
-    medianScore: 30.5,
-    lowerQuartileScore: 29.5
+    medianBest5: 30.5,
+    minBest5: 29.5
   },
   {
     id: 'cityu-bsocsc-crime-science',
@@ -2921,15 +2855,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BSocSc Crime Science',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    features: ['Crime Prevention', 'Security Practice', 'Global Policing', 'Crime Analytics', 'Cyber and Future Crimes'],
     requiredSubjects: {
       specific: ['eng'],
       electives: ['best_4_including_english']
     },
     admissionFormula: 'Best 4 subjects (include English)',
     subjectWeighting: { 'eng': 2, 'others': 1 },
-    medianScore: 21.5,
-    lowerQuartileScore: 21.5
+    medianBest5: 21.5,
+    minBest5: 21.5
   },
   {
     id: 'cityu-bsocsc-psychology',
@@ -2937,15 +2870,14 @@ const cityuJupasPrograms: JupasProgram[] = [
     name: 'BSocSc Psychology',
     university: 'CityU',
     faculty: 'College of Liberal Arts and Social Sciences',
-    streams: ['Health and Development', 'Mind and Brain'],
     requiredSubjects: {
       specific: ['eng'],
       electives: ['best_4_including_english']
     },
     admissionFormula: 'Best 4 subjects (include English)',
     subjectWeighting: { 'eng': 2, 'others': 1 },
-    medianScore: 23.5,
-    lowerQuartileScore: 23
+    medianBest5: 23.5,
+    minBest5: 23
   }
 ];
 
